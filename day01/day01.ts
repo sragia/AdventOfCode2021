@@ -1,50 +1,42 @@
 import { readFile } from "fs";
+import { inputToArray } from "../helper";
 
-const target = 2020;
+const findNumOfIncreases = (input: number[]) => {
+    let increases = 0;
 
-const mapInput = (input: number[]) => {
-    const map: { [index: number]: number } = {}
-
-    input.forEach(value => {
-        map[value] = map[value] ? map[value] + 1 : 1;
+    input.forEach((value, index) => {
+        if (index !== 0 && value > input[index - 1]) {
+            increases += 1;
+        }
     });
 
-    return map;
+    return increases;
 }
 
-const find2020Sumof2 = (input: number[]) => {
-    const map: { [index: number]: number } = mapInput(input);
+const createMeasurementBuckets = (input: number[]): number[] => {
+    const buckets = [];
 
-    for (const value of input) {
-        const valueToFind = target - value
-        if (map[valueToFind]) {
-            return value * valueToFind
+    input.forEach((value, index) => {
+        for (let i = index; i >= Math.max(index - 2, 0); i--) {
+            buckets[i] = buckets[i] ? buckets[i] + value : value;
         }
-    }
-
-    return 'wat';
+    });
+    /**
+     * 0 - 0
+     * 1 - 0 1
+     * 2 - 0 1 2
+     * 3 - 1 2 3
+     * 4 - 2 3 4
+     * 5 - 3 4 5
+     * 
+     */
+    return buckets;
 }
 
 
-const find2020Sumof3 = (input: number[]) => {
-    const map: { [index: number]: number } = mapInput(input);
+inputToArray(__dirname + '/input1.txt', (data: any[]) => {
+    const input = data.map(item => parseInt(item, 10)).filter(Boolean);
 
-    for (const value of input) {
-        for (const value2 of input) {
-            if (value2 !== value) {
-                const valueToFind = target - value - value2;
-                if (map[valueToFind] && valueToFind !== value && valueToFind !== value2) {
-                    return value * valueToFind * value2
-                }
-            }
-        }
-    }
-
-    return 'wat';
-}
-
-readFile(__dirname + '/input1.txt', "utf8", (_, data) => {
-    const input = data.split("\n").map(value => parseInt(value, 10));
-    console.log('from 2:', find2020Sumof2(input))
-    console.log('from 3:', find2020Sumof3(input))
+    console.log('Increases: ', findNumOfIncreases(input));
+    console.log('Sliding Window increases', findNumOfIncreases(createMeasurementBuckets(input)));
 });
