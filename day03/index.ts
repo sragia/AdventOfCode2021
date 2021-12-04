@@ -53,6 +53,7 @@ const flipBinary = (binary: string) => {
  * done very quick "dumb" way
  */
 inputToArray(__dirname + '/input.txt', (data: any[]) => {
+    console.time('runtime');
     const input = data.map(item => {
         if (item) {
             return item.split('').map(i => parseInt(i, 10))
@@ -114,4 +115,5 @@ inputToArray(__dirname + '/input.txt', (data: any[]) => {
 
     console.log('Result 2', oxygen * co2);
     
+    console.timeEnd('runtime');
 });

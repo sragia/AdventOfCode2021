@@ -41,6 +41,7 @@ readFile(__dirname + '/input.txt', "utf8", (_, data) => {
     const input = data.split("\n").map(item => item.trim());
     const boards = [];
     let currentBoardIdx = 0;
+    console.time('runtime');
     input.forEach(row => {
         if (row === '') {
             boards[currentBoardIdx].columns = getBoardColumns(boards[currentBoardIdx].rows);
@@ -58,7 +59,7 @@ readFile(__dirname + '/input.txt', "utf8", (_, data) => {
         let fastestSequenceToFin = null;
         board.rows.forEach((row, rowIndex) => {
             const result = checkInput(row);
-            if (!fastestSequenceToFin || fastestSequenceToFin.toComplete > result.toComplete ) {
+            if (!fastestSequenceToFin || fastestSequenceToFin.toComplete > result.toComplete) {
                 fastestSequenceToFin = {
                     board: index,
                     row: rowIndex,
@@ -71,7 +72,7 @@ readFile(__dirname + '/input.txt', "utf8", (_, data) => {
         // Columns
         board.columns.forEach((column, columnIndex) => {
             const result = checkInput(column);
-            if (!fastestSequenceToFin || fastestSequenceToFin.toComplete > result.toComplete ) {
+            if (!fastestSequenceToFin || fastestSequenceToFin.toComplete > result.toComplete) {
                 fastestSequenceToFin = {
                     board: index,
                     column: columnIndex,
@@ -104,4 +105,6 @@ readFile(__dirname + '/input.txt', "utf8", (_, data) => {
     }
 
     console.log('Last board to complete', calculateBoard(numbersSlow, boardFinishes[boardFinishes.length - 1].lastNumber, boardFinishes[boardFinishes.length - 1].toComplete))
+    
+    console.timeEnd('runtime');
 });

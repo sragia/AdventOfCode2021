@@ -35,8 +35,10 @@ const createMeasurementBuckets = (input: number[]): number[] => {
 
 
 inputToArray(__dirname + '/input1.txt', (data: any[]) => {
+    console.time('runtime');
     const input = data.map(item => parseInt(item, 10)).filter(Boolean);
 
     console.log('Increases: ', findNumOfIncreases(input));
     console.log('Sliding Window increases', findNumOfIncreases(createMeasurementBuckets(input)));
+    console.timeEnd('runtime');
 });

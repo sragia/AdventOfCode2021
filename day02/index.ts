@@ -51,6 +51,7 @@ const parseInputDirectionsWithAim = (input: {direction: 'forward' | 'down' | 'up
 
 
 inputToArray(__dirname + '/input.txt', (data: any[]) => {
+    console.time('runtime');
     const input = data.map(item => {
         if (item) {
             const parts = item.split(' ');
@@ -67,4 +68,5 @@ inputToArray(__dirname + '/input.txt', (data: any[]) => {
     
     const result2 = parseInputDirectionsWithAim(input);
     console.log('Result 2 -' , result2.depth * result2.horizontal, result2);
+    console.timeEnd('runtime');
 });
